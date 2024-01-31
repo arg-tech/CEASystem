@@ -16,13 +16,14 @@ WORKDIR /workdir
 COPY roberta-EvidenceAlignment-tuned-model.zip /workdir/
 RUN unzip roberta-EvidenceAlignment-tuned-model.zip
 
+COPY simple_ui/ /workdir/simple_ui/
+
 COPY requirements.txt /workdir/
 COPY *.py /workdir/
 
 #install the requirements
 RUN pip install -r requirements.txt
 
-EXPOSE 8000
+EXPOSE 8080
 
-ENTRYPOINT uvicorn app:app --workers 1 --host 0.0.0.0 --port 8000
-#CMD ["uvicorn",  "en_sac:app",  "--workers" "1" "--host" "0.0.0.0" "--port" "8000"]
+CMD ["python", "run_ui.py"]
