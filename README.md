@@ -5,7 +5,7 @@ This project aims to automate and help in decision-making process based on the a
 The project contains modules, ready-to-use fastAPI-based service and simple niceGUI-based UI containers.
 
 ## Project Components and Architecture
-![Alt text](CEAS.png)
+![Alt text](CEASservices.png)
 
 On the picture, the overall flow of modules is presented. The input text is converted to the [AIF](http://www.arg-tech.org/wp-content/uploads/2011/09/aif-spec.pdf) format (see [example_aif.json](example_aif.json)) for the example.
 On the next step, the claims are retrieved from the AIF graph by the rule-based approach. The provided claims are then evaluated manually and a set of evidences for the claims is provided to the system.
@@ -40,6 +40,159 @@ cd CEASystem/
 docker build . -t ceas_service
 docker run -d -p 8000:8000 ceas_service
 ```
+
+## Methods and Formats
+The app has two POST requests:
+ * get_claims
+ * analyze
+
+<br> Additionally, you can access docs by: <hostname>:port/docs (see fastAPI for more details). 
+
+### get_claims
+This request takes as an input text and parses it into the claims. Under the hood, the method converts text into the AIF format with pre-built ARG-tech methods and then utilizes the AIF graph structure to retrieve claims.
+<br>Example input:
+```python
+{
+    "text": "Some experts believe that Climate change is happening. There are plenty of reasons for it, but the most popular opinion is that governments are really slow, when it comes to reaction to the climate change. Other people claim that renewable energy is a scam that should be stopped."
+}
+```
+Example outputs:
+```python
+# success
+{
+  "code": 200,
+  "output": {
+    "hypothesis": [
+      "Some experts believe that Climate change is happening",
+      "There are plenty of reasons for it, but the most popular opinion is that governments are really slow, when it comes to reaction to the climate change",
+      "Other people claim that renewable energy is a scam that should be stopped"
+    ]
+  }
+}
+
+# error
+{
+    "code": 400,
+    "output": {"Error": "Empty text"},
+}
+
+```
+<br> Output keys:
+
+* code: int, 200 or 400. 200 means successful run, 400 error.
+* output: dict:
+  * hypothesis: list of strings, retrieved claims from text. Substrings of the text. 
+
+
+### analyze
+This request takes as an input claims and evidences. The algorithm analyzes claim-evidence alignment and produces claim-evidence score matrix, and scores per claim on the decision.
+<br>Example input:
+```python
+{
+  "hypothesis": [
+    "Climate change is happening",
+    "governments are really slow, when it comes to reaction to the climate change",
+    "renewable energy is a scam"
+  ],
+  "manual_evidences": [
+    "renewable energy sector generats plenty of jobs according to me",
+    "the coal industry provides a lot of jobs as well",
+    "there are a lot of money in wind, hydro electricity, solar panels to be made, with the benefits to humanity",
+    "The level is rising for the last 3 decades, studies show",
+    "The ocean level did not rise significantly",
+    "Some countries deploy very strict regulations to the gas companies",
+    "The limits are set for the amount of waste every country could emit",
+    "Some countries are very slow to higher their ecology standards",
+    "The amount of lifestock is getting bigger every year",
+    "The President of the United States uses his plane very oftenly during his term",
+    "The wind stations are on a rise",
+    "The hydro stations do not provide enough electricity even for a small town of 1000 people",
+    "The earth is not flat, but it is shaped as a banana",
+    "Ipod was made from execcive amount of plastic"
+  ],
+  "max_alignment_limit": -1,
+  "min_alignment_limit": -1
+}
+```
+
+<br> Example outputs:
+
+```python
+{
+  "code": 200,
+  "output": {
+    "ordered_hypothesises": [
+      "governments are really slow, when it comes to reaction to the climate change",
+      "renewable energy is a scam",
+      "Climate change is happening"
+    ],
+    "ordered_hypothesises_scores": [-1,-0.743,0.101],
+    "filtered_scoring_matrix": [
+      [0,0,0,0,0,-0.139,0,0.341,0,0,0,0,0,0],
+      [-0.834,0,-0.652,0,0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    ],
+    "kept_evidences": [
+      "renewable energy sector generats plenty of jobs according to me",
+      "the coal industry provides a lot of jobs as well",
+      "there are a lot of money in wind, hydro electricity, solar panels to be made, with the benefits to humanity",
+      "The level is rising for the last 3 decades, studies show",
+      "The ocean level did not rise significantly",
+      "Some countries deploy very strict regulations to the gas companies",
+      "The limits are set for the amount of waste every country could emit",
+      "Some countries are very slow to higher their ecology standards",
+      "The amount of lifestock is getting bigger every year",
+      "The President of the United States uses his plane very oftenly during his term",
+      "The wind stations are on a rise",
+      "The hydro stations do not provide enough electricity even for a small town of 1000 people",
+      "The earth is not flat, but it is shaped as a banana",
+      "Ipod was made from execcive amount of plastic"
+    ],
+    "dropped_evidences": [],
+    "full_scoring_matrix": [
+      [0,0,0,0,0,-0.139,0,0.341,0,0,0,0,0,0],
+      [-0.834,0,-0.652,0,0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    ],
+    "full_ordered_evidences": [
+      "renewable energy sector generats plenty of jobs according to me",
+      "the coal industry provides a lot of jobs as well",
+      "there are a lot of money in wind, hydro electricity, solar panels to be made, with the benefits to humanity",
+      "The level is rising for the last 3 decades, studies show",
+      "The ocean level did not rise significantly",
+      "Some countries deploy very strict regulations to the gas companies",
+      "The limits are set for the amount of waste every country could emit",
+      "Some countries are very slow to higher their ecology standards",
+      "The amount of lifestock is getting bigger every year",
+      "The President of the United States uses his plane very oftenly during his term",
+      "The wind stations are on a rise",
+      "The hydro stations do not provide enough electricity even for a small town of 1000 people",
+      "The earth is not flat, but it is shaped as a banana",
+      "Ipod was made from execcive amount of plastic"
+    ]
+  }
+}
+
+# error
+{
+    "code": 400,
+    "output": {"Error": "Value Error"},
+}
+```
+
+<br> Output keys:
+
+* code: int, 200 or 400. 200 means successful run, 400 error.
+* output: dict:
+  * ordered_hypothesises: list of strings, ordered claims with respect to the scores in <i>ordered_hypothesises_scores,filtered_scoring_matrix,full_scoring_matrix</i>.
+  * ordered_hypothesises_scores:  list of floats;  scores for each corresponding fact in <i>ordered_hypothesises</i>. -1 meaning the highest likelihood of the fact being untrue, +1: being true.
+  * dropped_evidences: list of strings; The evidence that filtered as irrelevant or unhelpful to the provided facts.
+  * kept_evidences: list of string; The evidence that were considered relevant and useful to the provided facts.
+  * full_scoring_matrix: list of list of floats; Matrix, where rows are corresponding to the <i>ordered_hypothesises</i> and cols are corresponding to the <i>full_ordered_evidences</i>. An (i,j) cell contains a score for the i-th element from <i>ordered_hypothesises</i> and j-th element from <i>full_ordered_evidences</i>. -1000 means that this evidence was removed from the consideration completely (because of irrelevance) for all facts. 0 means that for this particular fact this specific evidence was not considered as relevant. Values from -1 to +1 indicates the score, on how the evidence supported the fact. -1 being highly against, +1 meaning in favor. 
+  * full_ordered_evidences: list of string, ordered evidences for the columns of <i>full_scoring_matrix</i>.
+  * filtered_scoring_matrix: list of lists of floats; the same matrix, as <i>full_scoring_matrix</i>, but without the <i>dropped_evidences</i>.
+ 
+
 
 ## Customizing behavior 
 All required variables are provided in the [config.py](config.py). Specifically:

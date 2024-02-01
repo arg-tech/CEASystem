@@ -82,8 +82,8 @@ class ClaimsEvidenceInput(BaseModel):
     model_config = {
         "json_schema_extra": {
             "examples": [{
-                "min_alignment_limit": 2,
-                "min_alignment_limit": 3,
+                "min_alignment_limit": -1,
+                "max_alignment_limit": -1,
                 "hypothesis": [
                     "Climate change is happening",
                     "governments are really slow, when it comes to reaction to the climate change",
