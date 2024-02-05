@@ -92,16 +92,3 @@ class RelationClaimExtractor:
                         break
 
         return [node_meta_dict[node] for node in keep_nodes]
-
-if __name__ == '__main__':
-    import json
-
-    PATH = "cutietestrun28May2020/nodeset17919.json"
-
-    data = json.load(open(PATH, "r"))
-    extracted_claims = RelationClaimExtractor.get_claim_nodes_aif(
-        aif_json=data
-    )
-
-    from pprint import pprint
-    pprint(extracted_claims)

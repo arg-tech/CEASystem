@@ -115,6 +115,11 @@ This request takes as an input claims and evidences. The algorithm analyzes clai
 }
 ```
 
+Input keys:
+* hypothesis, evidences: list of str, hypothesis and evidences to score and align.
+* min_alignment_limit: int, minimum aligned limit. If >= 0, the evidences that support <= min_alignment_limit claims will be removed. If -1, will be ignored
+* max_alignment_limit: int, maximum aligned limit. If >= 0, the evidences that support >= max_alignment_limit claims will be removed. If -1, will be ignored
+
 <br> Example outputs:
 
 ```python
@@ -211,6 +216,7 @@ In this case, the model has 3 labels: entailment, contradiction, and neutral. We
 *RELATIONER_API: str, api route to the relationer service. 
 
 ## Running separate modules
+See [examples/](examples) on how to use modules separately.
 If you need only one specific module, you can find them and their description in the corresponding files:
 * [claim_extraction.py](claim_extraction.py): Classes for claim extraction from the AIF formatted argumets.
 * [parsing_components.py](parsing_components.py): API calls to the APIs that parse text into AIF format.
