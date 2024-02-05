@@ -5,9 +5,23 @@ from utils import divide_chunks
 import numpy as np
 
 class AlignmentMatrixFiltering:
+    """
+    Filtering evidences based on the alignment matrix
+    """
 
     @classmethod
     def filter_binary_evidences(cls, alignment_matrix, min_alignment_limit, max_alignment_limit):
+        """
+        Filtering evidences based on the alignment matrix: removing evidences that support too many or too few claims
+
+        :param alignment_matrix: numpy.array, binary alignment matrix of claims-evidences of shape (num claims, num evidences).
+        1 means that evidence is aligned to the claim, 0 - not aligned
+        :param min_alignment_limit: int, minimum aligned limit. If >= 0, the evidences that support <= min_alignment_limit claims will be removed. If -1, will be ignored
+        :param max_alignment_limit: int, maximum aligned limit. If >= 0, the evidences that support >= max_alignment_limit claims will be removed. If -1, will be ignored
+        :return: tuple:
+            numpy.array, alignment_matrix with dropped columns (removed evidences),
+            list of ints, ids in the original input alignment_matrix of evidences thar were removed
+        """
 
         # process default values
         if min_alignment_limit == -1:
@@ -26,10 +40,17 @@ class AlignmentMatrixFiltering:
         return alignment_matrix[:,keep_ids], drop_idx
 
 class AlignmentMarixFilteringScoring:
+    """
+    Scoring claim-evidence alignment matrix to determine the influence of the evidence
+    """
     def __init__(self,
                  mnli_model_name_path,
                  model_label_decoder
                  ):
+        """
+        :param mnli_model_name_path: str; path or name in huggingface hub of pre-traine dmnli model that will be used for scoring
+        :param model_label_decoder: dict of the format: {"entailment": int, "contradiction": int}, decoder that indicates the location of entailment and contradiction in the logits of the model
+        """
 
 
         self.mnli_model = AutoModelForSequenceClassification.from_pretrained(mnli_model_name_path)
@@ -38,6 +59,17 @@ class AlignmentMarixFilteringScoring:
 
     @torch.no_grad()
     def _predict_mnli_logits(self, hypothesises, evidences):
+        """
+        Running hypothesises and evidences through the MNLI model
+        For example:
+            hypothesises = ["Earth is round", "Earth is round", "I can't be a president"]
+            evidences = ["It was proved by Greeks", "because if you ...", "I am only 20 years old, which is not enough"]
+        The prediction will be done for a pair of strings: hypothesises_i and  evidences_i
+
+        :param hypothesises: list of str, claims to predict
+        :param evidences: list of str, evidences to predict
+        :return: list of floats, predicted scores per pair
+        """
         input = self.mnli_tokenizer(hypothesises, evidences, padding=True, truncation=True, return_tensors="pt")
         output = self.mnli_model(input["input_ids"])
 
@@ -65,6 +97,25 @@ class AlignmentMarixFilteringScoring:
                             min_alignment_limit,
                             max_alignment_limit,
                             batch_size=8):
+        """
+        Scoring an influence and deciding if an evidence supports/countr the claim
+
+        :param alignment_matrix: numpy.array, binary alignment matrix of claims-evidences of shape (num claims, num evidences).
+        1 means that evidence is aligned to the claim, 0 - not aligned
+        :param min_alignment_limit: int, minimum aligned limit. If >= 0, the evidences that support <= min_alignment_limit claims will be removed. If -1, will be ignored
+        :param max_alignment_limit: int, maximum aligned limit. If >= 0, the evidences that support >= max_alignment_limit claims will be removed. If -1, will be ignored
+        :param hypothesises: list of str, claims to predict, ordered as rows in alignment_matrix
+        :param evidences: list of str, evidences to predict, ordered as cols in alignment_matrix
+        :param batch_size: int, batch size to use for MNLI model
+        :return: dict:
+                {
+                 "scoring_matrix": list of list of floats, scored filtered matrix. Contains only relevant evidences after filtering
+                    Rows are claims, cols are filtered evidences. Order of columns: "filtered_evidences". Order of rows: "hypothesis_texts"
+            "filtered_evidences": list of str, kept evidences in the matrix after filtering.
+            "hypothesis_texts": list of str, claims
+            "dropped_evidences": list of str, evidences that were removed.
+                }
+        """
 
         binary_filtered_alignment_matrix, binary_drop_idx = AlignmentMatrixFiltering.filter_binary_evidences(
             alignment_matrix=alignment_matrix,
