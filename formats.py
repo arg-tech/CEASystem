@@ -3,6 +3,7 @@ from typing import Dict, Any, List
 
 import numpy as np
 
+# Decorator to output result in the specific format
 def return_error_codes():
   def decorate(f):
     def applicator(*args, **kwargs):
@@ -19,6 +20,22 @@ def return_error_codes():
 
 def prepare_output(ordered_decision_scores_dict, scoring_matrix,
                    hypothesis, kept_evidences, dropped_evidences):
+    """
+    Format output in a suitable format.
+
+    :param ordered_decision_scores_dict: dict, result of decision_making.DecisionDistributionMaker:
+        {
+            "order_ids": list/array of ints, id of "hypothesis" to the score from "scores".
+            "scores": list/array of floats, scores decision per hypothesis.
+        }
+
+    :param scoring_matrix: list of lists/array/matrix. Matrix of claim-evidence scores. Claims are rows, evidences are cols.
+        This matrix should include only "kept_evidences" and all the claims. The order of rows and cols should be the same as "ordered_hypothesises" and "kept_evidences"
+    :param hypothesis: list of str, claims that the decision was made for.
+    :param kept_evidences: list of str, ordered list of evidences that were considered in scoring_matrix. Order should be the same as corresponding order of rows in "scoring_matrix"
+    :param dropped_evidences: list of str, evidences that were not used during the analysis due to the filtering
+    :return: dict, formatted output in the format in AnalyzedOutput
+    """
     request_output_dict = {}
     request_output_dict["ordered_hypothesises"] = [hypothesis[i] for i in ordered_decision_scores_dict["order_ids"]]
     request_output_dict["ordered_hypothesises_scores"] = [round(x, 3) for x in ordered_decision_scores_dict["scores"]]

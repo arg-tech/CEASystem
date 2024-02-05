@@ -1,3 +1,7 @@
+"""
+Useful general functions
+"""
+
 def divide_chunks(l, n):
     # looping till length l
     for i in range(0, len(l), n):
