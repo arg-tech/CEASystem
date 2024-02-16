@@ -19,7 +19,8 @@ def return_error_codes():
 
 
 def prepare_output(ordered_decision_scores_dict, scoring_matrix,
-                   hypothesis, kept_evidences, dropped_evidences):
+                   hypothesis, kept_evidences, dropped_evidences,
+                   hypothesis_nodes, structure_hypothesis_graph):
     """
     Format output in a suitable format.
 
@@ -56,6 +57,9 @@ def prepare_output(ordered_decision_scores_dict, scoring_matrix,
     ).round(3).tolist()
     request_output_dict["full_ordered_evidences"] = request_output_dict["kept_evidences"] + request_output_dict["dropped_evidences"]
 
+    request_output_dict["hypothesis_nodes"] = hypothesis_nodes
+    request_output_dict["structure_hypothesis_graph"] = structure_hypothesis_graph
+
     return request_output_dict
 
 class RawTextInput(BaseModel):
@@ -83,6 +87,38 @@ class ParsedTextOutput(BaseModel):
                         "Climate change is happening",
                         "governments are really slow, when it comes to reaction to the climate change",
                         "renewable energy is a scam"
+                    ],
+                    "hypothesis_nodes": [
+                        {
+                            "nodeID": "1",
+                            "text": "Climate change is happening",
+                            "type": "I",
+                            "timestamp": "2020-05-28 19:24:34"
+                        },
+                        {
+                            "nodeID": "2",
+                            "text": "governments are really slow, when it comes to reaction to the climate change",
+                            "type": "I",
+                            "timestamp": "2020-05-28 19:24:31"
+                        },
+                        {
+                            "nodeID": "3",
+                            "text": "renewable energy is a scam",
+                            "type": "I",
+                            "timestamp": "2020-05-28 19:24:35"
+                        }
+                    ],
+                    "structure_hypothesis_graph": [
+                        {
+                            "fromID": "2",
+                            "toID": "1",
+                            "relation": "Asserting"
+                        },
+                        {
+                            "fromID": "1",
+                            "toID": "3",
+                            "relation": "Contradiction"
+                        }
                     ]
                 }
             }]
@@ -93,8 +129,11 @@ class ParsedTextOutput(BaseModel):
 class ClaimsEvidenceInput(BaseModel):
     hypothesis: List[str]
     manual_evidences: List[str]
+    hypothesis_nodes: List[Dict[str, str]]
+    structure_hypothesis_graph: List[Dict[str, str]]
     min_alignment_limit: int
     max_alignment_limit: int
+
 
     model_config = {
         "json_schema_extra": {
@@ -121,6 +160,38 @@ class ClaimsEvidenceInput(BaseModel):
                     "The hydro stations do not provide enough electricity even for a small town of 1000 people",
                     "The earth is not flat, but it is shaped as a banana",
                     "Ipod was made from execcive amount of plastic"
+                ],
+                "hypothesis_nodes": [
+                    {
+                        "nodeID": "1",
+                        "text": "Climate change is happening",
+                        "type": "I",
+                        "timestamp": "2020-05-28 19:24:34"
+                    },
+                    {
+                        "nodeID": "2",
+                        "text": "governments are really slow, when it comes to reaction to the climate change",
+                        "type": "I",
+                        "timestamp": "2020-05-28 19:24:31"
+                    },
+                    {
+                        "nodeID": "3",
+                        "text": "renewable energy is a scam",
+                        "type": "I",
+                        "timestamp": "2020-05-28 19:24:35"
+                    }
+                ],
+                "structure_hypothesis_graph": [
+                    {
+                        "fromID": "2",
+                        "toID": "1",
+                        "relation": "Asserting"
+                    },
+                    {
+                        "fromID": "1",
+                        "toID": "3",
+                        "relation": "Contradiction"
+                    }
                 ]
             }]
         }}
@@ -185,7 +256,39 @@ class AnalyzedOutput(BaseModel):
                             'renewable energy is a scam',
                             'Climate change is happening'
                         ],
-                        'ordered_hypothesises_scores': [-1.000,-0.742, 0.112]
+                        'ordered_hypothesises_scores': [-1.000,-0.742, 0.112],
+                        "hypothesis_nodes": [
+                            {
+                                "nodeID": "1",
+                                "text": "Climate change is happening",
+                                "type": "I",
+                                "timestamp": "2020-05-28 19:24:34"
+                            },
+                            {
+                                "nodeID": "2",
+                                "text": "governments are really slow, when it comes to reaction to the climate change",
+                                "type": "I",
+                                "timestamp": "2020-05-28 19:24:31"
+                            },
+                            {
+                                "nodeID": "3",
+                                "text": "renewable energy is a scam",
+                                "type": "I",
+                                "timestamp": "2020-05-28 19:24:35"
+                            }
+                        ],
+                        "structure_hypothesis_graph": [
+                            {
+                                "fromID": "2",
+                                "toID": "1",
+                                "relation": "Asserting"
+                            },
+                            {
+                                "fromID": "1",
+                                "toID": "3",
+                                "relation": "Contradiction"
+                            }
+                        ]
                     }
                 }]
             }}

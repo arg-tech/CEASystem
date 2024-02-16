@@ -39,9 +39,10 @@ async def get_claims(input_dict: RawTextInput):
     )
     aif_json = aif_json["AIF"]
 
-    claim_texts = RelationClaimExtractor.get_claim_texts_aif(
+    claim_nodes_dicts, structure_claims_graph = RelationClaimExtractor.get_claim_texts_aif(
         aif_json=aif_json
     )
+    claim_texts = [x["text"] for x in claim_nodes_dicts]
 
     if not len(claim_texts):
         return {
@@ -52,7 +53,9 @@ async def get_claims(input_dict: RawTextInput):
     return {
         "code": 200,
         "output": {
-            "hypothesis": claim_texts
+            "hypothesis": claim_texts,
+            "hypothesis_nodes": claim_nodes_dicts,
+            "structure_hypothesis_graph": structure_claims_graph
         }
     }
 
@@ -83,7 +86,9 @@ async def analyze(input_dict: ClaimsEvidenceInput):
         scoring_matrix=scoring_dict["scoring_matrix"],
         hypothesis=input_dict.hypothesis,
         kept_evidences=scoring_dict["filtered_evidences"],
-        dropped_evidences=scoring_dict["dropped_evidences"]
+        dropped_evidences=scoring_dict["dropped_evidences"],
+        structure_hypothesis_graph=input_dict.structure_hypothesis_graph,
+        hypothesis_nodes=input_dict.hypothesis_nodes
     )
 
     return {"code": 200, "output": request_output}
