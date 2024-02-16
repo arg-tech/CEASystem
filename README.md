@@ -14,18 +14,16 @@ Finally, based on the scoring matrix the decision is drawn as a set of scores, h
 As an explanation otput, the final scoring matrix is provided, with the indications on which evidences were filtered.
 <br> More details will be provided further.
 
-## Getting Started
-The repository contains two branches:
- * <i>main</i> - fastAPI app and all required classes.
- * <i>docker-ui</i> - niceGUI web page service modules.
+# Getting Started
 
 ## Running API
 To run the API, you will need to download and unzip in the repo directory required trained models for the tasks:
-1. Claim-Evidence Alignment model. Binary classificator that predict if the evidence is relevant to the claim. Can be downloaded here.
+1. Claim-Evidence Alignment model. Binary classificator that predict if the evidence is relevant to the claim. Can be downloaded here (contact me for the model).
 
-To run the model, you can simple run it via python: 
+To run the model, you can simply run it via python: 
 ```commandline
-python app.py
+# default to localhost:8000
+python app.py 
 ```
 
 or with uvicorn:
@@ -66,7 +64,39 @@ Example outputs:
       "Some experts believe that Climate change is happening",
       "There are plenty of reasons for it, but the most popular opinion is that governments are really slow, when it comes to reaction to the climate change",
       "Other people claim that renewable energy is a scam that should be stopped"
-    ]
+    ],
+    "hypothesis_nodes": [
+      {
+        "nodeID": "1",
+        "text": "Climate change is happening",
+        "type": "I",
+        "timestamp": "2020-05-28 19:24:34"
+      },
+      {
+        "nodeID": "2",
+        "text": "governments are really slow, when it comes to reaction to the climate change",
+        "type": "I",
+        "timestamp": "2020-05-28 19:24:31"
+    },
+    {
+        "nodeID": "3",
+        "text": "renewable energy is a scam",
+        "type": "I",
+        "timestamp": "2020-05-28 19:24:35"
+    }
+],
+    "structure_hypothesis_graph": [
+    {
+        "fromID": "2",
+        "toID": "1",
+        "relation": "Asserting"
+    },
+    {
+        "fromID": "1",
+        "toID": "3",
+        "relation": "Contradiction"
+    }
+]
   }
 }
 
@@ -82,7 +112,8 @@ Example outputs:
 * code: int, 200 or 400. 200 means successful run, 400 error.
 * output: dict:
   * hypothesis: list of strings, retrieved claims from text. Substrings of the text. 
-
+  * hypothesis_nodes: list of dicts; meta info of nodes retrieved from the graph. It is required for the article generation (separate service).
+  * structure_hypothesis_graph: list of dicts; relationships between the nodes (cut of the graph). It is required for the article generation (separate service).
 
 ### analyze
 This request takes as an input claims and evidences. The algorithm analyzes claim-evidence alignment and produces claim-evidence score matrix, and scores per claim on the decision.
@@ -110,15 +141,51 @@ This request takes as an input claims and evidences. The algorithm analyzes clai
     "The earth is not flat, but it is shaped as a banana",
     "Ipod was made from execcive amount of plastic"
   ],
+  
   "max_alignment_limit": -1,
-  "min_alignment_limit": -1
+  "min_alignment_limit": -1,
+  
+  "hypothesis_nodes": [
+      {
+        "nodeID": "1",
+        "text": "Climate change is happening",
+        "type": "I",
+        "timestamp": "2020-05-28 19:24:34"
+      },
+      {
+        "nodeID": "2",
+        "text": "governments are really slow, when it comes to reaction to the climate change",
+        "type": "I",
+        "timestamp": "2020-05-28 19:24:31"
+    },
+    {
+        "nodeID": "3",
+        "text": "renewable energy is a scam",
+        "type": "I",
+        "timestamp": "2020-05-28 19:24:35"
+    }
+],
+    "structure_hypothesis_graph": [
+    {
+        "fromID": "2",
+        "toID": "1",
+        "relation": "Asserting"
+    },
+    {
+        "fromID": "1",
+        "toID": "3",
+        "relation": "Contradiction"
+    }
+]
 }
 ```
 
 Input keys:
 * hypothesis, evidences: list of str, hypothesis and evidences to score and align.
 * min_alignment_limit: int, minimum aligned limit. If >= 0, the evidences that support <= min_alignment_limit claims will be removed. If -1, will be ignored
-* max_alignment_limit: int, maximum aligned limit. If >= 0, the evidences that support >= max_alignment_limit claims will be removed. If -1, will be ignored
+* max_alignment_limit: int, maximum aligned limit. If >= 0, the evidences that support >= max_alignment_limit claims will be removed. If -1, will be ignored 
+* hypothesis_nodes: list of dicts; meta info of nodes retrieved from the graph. It will be used to reorder info based on decision scores per hypothesis. It is required for the article generation (separate service).
+* structure_hypothesis_graph: list of dicts; relationships between the nodes (cut of the graph). It is required for the article generation (separate service).
 
 <br> Example outputs:
 
@@ -196,7 +263,9 @@ Input keys:
   * full_scoring_matrix: list of list of floats; Matrix, where rows are corresponding to the <i>ordered_hypothesises</i> and cols are corresponding to the <i>full_ordered_evidences</i>. An (i,j) cell contains a score for the i-th element from <i>ordered_hypothesises</i> and j-th element from <i>full_ordered_evidences</i>. -1000 means that this evidence was removed from the consideration completely (because of irrelevance) for all facts. 0 means that for this particular fact this specific evidence was not considered as relevant. Values from -1 to +1 indicates the score, on how the evidence supported the fact. -1 being highly against, +1 meaning in favor. 
   * full_ordered_evidences: list of string, ordered evidences for the columns of <i>full_scoring_matrix</i>.
   * filtered_scoring_matrix: list of lists of floats; the same matrix, as <i>full_scoring_matrix</i>, but without the <i>dropped_evidences</i>.
- 
+  * ordered_hypothesises_nodeids: list of dicts; meta info of nodes retrieved from the graph. Reordered info based on decision scores per hypothesis. It is required for the article generation (separate service).
+  * structure_hypothesis_graph: list of dicts; relationships between the nodes (cut of the graph). It is required for the article generation (separate service).
+
 
 
 ## Customizing behavior 
