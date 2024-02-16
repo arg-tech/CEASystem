@@ -96,7 +96,8 @@ class RelationClaimExtractor:
         #                 keep_nodes.remove(node)
         #                 break
 
-        return [node_meta_dict[node] for node in keep_nodes], structure_claims_graph
+        keep_nodes_meta_dicts = [node_meta_dict[node] for node in keep_nodes]
+        return keep_nodes_meta_dicts, structure_claims_graph
 
     @classmethod
     def get_node_parents_edges(cls,

@@ -39,6 +39,7 @@ def prepare_output(ordered_decision_scores_dict, scoring_matrix,
     """
     request_output_dict = {}
     request_output_dict["ordered_hypothesises"] = [hypothesis[i] for i in ordered_decision_scores_dict["order_ids"]]
+    request_output_dict["ordered_hypothesises_nodeids"] = [hypothesis_nodes[i] for i in ordered_decision_scores_dict["order_ids"]]
     request_output_dict["ordered_hypothesises_scores"] = [round(x, 3) for x in ordered_decision_scores_dict["scores"]]
 
     request_output_dict["filtered_scoring_matrix"] = np.array(scoring_matrix).round(3)[ordered_decision_scores_dict["order_ids"],:]
@@ -57,7 +58,6 @@ def prepare_output(ordered_decision_scores_dict, scoring_matrix,
     ).round(3).tolist()
     request_output_dict["full_ordered_evidences"] = request_output_dict["kept_evidences"] + request_output_dict["dropped_evidences"]
 
-    request_output_dict["hypothesis_nodes"] = hypothesis_nodes
     request_output_dict["structure_hypothesis_graph"] = structure_hypothesis_graph
 
     return request_output_dict
@@ -256,14 +256,8 @@ class AnalyzedOutput(BaseModel):
                             'renewable energy is a scam',
                             'Climate change is happening'
                         ],
-                        'ordered_hypothesises_scores': [-1.000,-0.742, 0.112],
-                        "hypothesis_nodes": [
-                            {
-                                "nodeID": "1",
-                                "text": "Climate change is happening",
-                                "type": "I",
-                                "timestamp": "2020-05-28 19:24:34"
-                            },
+                        'ordered_hypothesises_scores': [-1.000, -0.742, 0.112],
+                        "ordered_hypothesises_nodeids": [
                             {
                                 "nodeID": "2",
                                 "text": "governments are really slow, when it comes to reaction to the climate change",
@@ -275,6 +269,12 @@ class AnalyzedOutput(BaseModel):
                                 "text": "renewable energy is a scam",
                                 "type": "I",
                                 "timestamp": "2020-05-28 19:24:35"
+                            },
+                            {
+                                "nodeID": "1",
+                                "text": "Climate change is happening",
+                                "type": "I",
+                                "timestamp": "2020-05-28 19:24:34"
                             }
                         ],
                         "structure_hypothesis_graph": [
