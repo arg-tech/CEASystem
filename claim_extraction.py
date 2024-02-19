@@ -69,23 +69,27 @@ class RelationClaimExtractor:
         :param aif_json:
         :return:
         """
-        keep_nodes = []
+        keep_nodes_ids = []
 
         node_meta_dict = cls._get_meta_nodes_dict(aif_json)
 
         # getting all nodes that are children of YA nodes
         for edge in aif_json["edges"]:
-            if node_meta_dict[edge["fromID"]]["type"] == "YA" and node_meta_dict[edge["fromID"]]["text"] == "Asserting":
+            if node_meta_dict[edge["fromID"]]["type"] == "YA":
+                    # and node_meta_dict[edge["fromID"]]["text"] == "Asserting":
                 if edge["toID"] in node_meta_dict:
                     if node_meta_dict[edge["toID"]]["type"] == "I":
-                        if edge["toID"] not in keep_nodes:
-                            keep_nodes.append(edge["toID"])
+                        if edge["toID"] not in keep_nodes_ids:
+                            keep_nodes_ids.append(
+                                edge["toID"]
+                            )
+        keep_nodes_meta_dicts = [node_meta_dict[node_id] for node_id in keep_nodes_ids]
 
 
         structure_claims_graph = cls.retrieve_edges_from_claim_nodes(
             node_meta_dict=node_meta_dict,
             aif_json=aif_json,
-            claim_nodes=keep_nodes
+            claim_nodes=keep_nodes_meta_dicts
         )
 
         # filtering nodes, removing children of CA
@@ -96,7 +100,6 @@ class RelationClaimExtractor:
         #                 keep_nodes.remove(node)
         #                 break
 
-        keep_nodes_meta_dicts = [node_meta_dict[node] for node in keep_nodes]
         return keep_nodes_meta_dicts, structure_claims_graph
 
     @classmethod
@@ -135,3 +138,19 @@ class RelationClaimExtractor:
                     } for parent_edge in edge_parents
                 ]
         return kept_relation_edges
+
+if __name__ == '__main__':
+    import json
+    data = json.load(open("aif_graph.json", "r"))
+
+    claim_nodes_dicts, structure_claims_graph = RelationClaimExtractor.get_claim_texts_aif(data)
+    with open(
+        "output.json", "w"
+    ) as f:
+        json.dump(
+            {
+                "hypothesis": [x["text"] for x in claim_nodes_dicts],
+                "hypothesis_nodes": claim_nodes_dicts,
+                "structure_hypothesis_graph": structure_claims_graph
+            }, f
+        )
