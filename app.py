@@ -39,8 +39,9 @@ async def get_claims(input_dict: RawTextInput):
     )
     aif_json = aif_json["AIF"]
 
-    claim_nodes_dicts, structure_claims_graph = RelationClaimExtractor.get_claim_texts_aif(
-        aif_json=aif_json
+    claim_nodes_dicts, structure_claims_graph = RelationClaimExtractor.get_claim_nodes_aif(
+        aif_json=aif_json,
+        keep_ya_nodes_texts=input_dict.keep_ya_nodes_texts
     )
     claim_texts = [x["text"] for x in claim_nodes_dicts]
 

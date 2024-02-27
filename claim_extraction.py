@@ -36,34 +36,56 @@ class RelationClaimExtractor:
         return node_meta_dict
 
     @classmethod
-    def get_claim_nodes_xaif(cls, xaif_json: Dict[str, Any]) -> List[Dict[str, str]]:
+    def get_claim_nodes_xaif(cls,
+                             xaif_json: Dict[str, Any],
+                             keep_ya_nodes_texts: List[str] = []
+                             ) -> List[Dict[str, str]]:
         """Run extraction on xAIF format. Input is a dict with the key "AIF" that has AIF formatted json.
         For output, see get_claim_nodes_aif"""
-        return cls.get_claim_nodes_aif(aif_json=xaif_json["AIF"])
+        return cls.get_claim_nodes_aif(
+            aif_json=xaif_json["AIF"],
+            keep_ya_nodes_texts=keep_ya_nodes_texts
+        )
 
     @classmethod
-    def get_claim_texts_aif(cls, aif_json: Dict[str, Any]) -> Tuple[List[Dict[str, Any]], List[Dict[str, str]]]:
+    def get_claim_texts_aif(cls,
+                            aif_json: Dict[str, Any],
+                            keep_ya_nodes_texts: List[str] = []
+                            ) -> List[str]:
         """
         Retrieve claims from AIF data sample
 
         :param aif_json: dict, AIF formatted dict.
         :return: list of str, texts of retrieved claims
         """
-        nodes_dicts, structure_claims_graph = cls.get_claim_nodes_aif(aif_json=aif_json)
-        return nodes_dicts, structure_claims_graph
+        nodes_dicts, structure_claims_graph = cls.get_claim_nodes_aif(
+            aif_json=aif_json,
+            keep_ya_nodes_texts=keep_ya_nodes_texts
+        )
+        claim_texts = [x["text"] for x in nodes_dicts]
+        return claim_texts
 
     @classmethod
-    def get_claim_texts_xaif(cls, xaif_json: Dict[str, Any]) -> Tuple[List[Dict[str, Any]], List[Dict[str, str]]]:
+    def get_claim_texts_xaif(cls,
+                             xaif_json: Dict[str, Any],
+                             keep_ya_nodes_texts: List[str] = []
+                             ) -> List[str]:
         """
         Retrieve claims from xAIF data sample.
         Input: xAIF data sample. Should have key "AIF" with AIF dict attached to it.
         return: see get_claim_texts_aif
         """
-        nodes_dicts, structure_claims_graph = cls.get_claim_nodes_xaif(xaif_json=xaif_json)
-        return nodes_dicts, structure_claims_graph
+        nodes_dicts, structure_claims_graph = cls.get_claim_nodes_xaif(
+            xaif_json=xaif_json,
+            keep_ya_nodes_texts=keep_ya_nodes_texts
+        )
+        texts = [x["text"] for x in nodes_dicts]
+        return texts
 
     @classmethod
-    def get_claim_nodes_aif(cls, aif_json: Dict[str, Any]) -> Tuple[List[Dict[str, Any]], List[Dict[str, str]]]:
+    def get_claim_nodes_aif(cls, aif_json: Dict[str, Any],
+                            keep_ya_nodes_texts: List[str] = []
+                            ) -> Tuple[List[Dict[str, Any]], List[Dict[str, str]]]:
         """
 
         :param aif_json:
@@ -76,13 +98,24 @@ class RelationClaimExtractor:
         # getting all nodes that are children of YA nodes
         for edge in aif_json["edges"]:
             if node_meta_dict[edge["fromID"]]["type"] == "YA":
-                    # and node_meta_dict[edge["fromID"]]["text"] == "Asserting":
-                if edge["toID"] in node_meta_dict:
-                    if node_meta_dict[edge["toID"]]["type"] == "I":
-                        if edge["toID"] not in keep_nodes_ids:
-                            keep_nodes_ids.append(
-                                edge["toID"]
-                            )
+
+
+                if keep_ya_nodes_texts:
+                    if node_meta_dict[edge["fromID"]]["text"] in keep_ya_nodes_texts:
+                        if edge["toID"] in node_meta_dict:
+                            if node_meta_dict[edge["toID"]]["type"] == "I":
+                                if edge["toID"] not in keep_nodes_ids:
+                                    keep_nodes_ids.append(
+                                        edge["toID"]
+                                    )
+                else:
+                    if edge["toID"] in node_meta_dict:
+                        if node_meta_dict[edge["toID"]]["type"] == "I":
+                            if edge["toID"] not in keep_nodes_ids:
+                                keep_nodes_ids.append(
+                                    edge["toID"]
+                                )
+
         keep_nodes_meta_dicts = [node_meta_dict[node_id] for node_id in keep_nodes_ids]
 
 
@@ -141,9 +174,14 @@ class RelationClaimExtractor:
 
 if __name__ == '__main__':
     import json
-    data = json.load(open("aif_graph.json", "r"))
+    data = json.load(
+        open("examples/aif_graph.json", "r")
+    )
 
-    claim_nodes_dicts, structure_claims_graph = RelationClaimExtractor.get_claim_texts_aif(data)
+
+    claim_nodes_dicts, structure_claims_graph = RelationClaimExtractor.get_claim_nodes_aif(
+        data
+    )
     with open(
         "output.json", "w"
     ) as f:

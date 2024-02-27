@@ -1,5 +1,5 @@
 # ALIGNMENT CONFIG VARIABLES
-ALIGNER_MODEL_PATH = "roberta-EvidenceAlignment-tuned-model"
+ALIGNER_MODEL_PATH = "/Users/yevhen/HypothesisJournalists/roberta-EvidenceAlignment-tuned-model"
 ALIGNER_BATCH_SIZE = 6
 
 # SCORING CONFIG VARIABLES

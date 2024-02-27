@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Union, Optional
 
 import numpy as np
 
@@ -64,11 +64,13 @@ def prepare_output(ordered_decision_scores_dict, scoring_matrix,
 
 class RawTextInput(BaseModel):
     text: str
+    keep_ya_nodes_texts: Optional[List[str]] = []
 
     model_config = {
         "json_schema_extra": {
             "examples": [{
                 "text": "Some experts believe that Climate change is happening. There are plenty of reasons for it, but the most popular opinion is that governments are really slow, when it comes to reaction to the climate change. Other people claim that renewable energy is a scam that should be stopped.",
+                "keep_ya_nodes_texts": []
             }]
         }
     }
@@ -129,10 +131,11 @@ class ParsedTextOutput(BaseModel):
 class ClaimsEvidenceInput(BaseModel):
     hypothesis: List[str]
     manual_evidences: List[str]
-    hypothesis_nodes: List[Dict[str, str]]
-    structure_hypothesis_graph: List[Dict[str, str]]
-    min_alignment_limit: int
-    max_alignment_limit: int
+    hypothesis_nodes: List[Dict[str, Union[str, int]]]
+    structure_hypothesis_graph: List[Dict[str, Union[str, int]]]
+
+    min_alignment_limit: Optional[int] = -1
+    max_alignment_limit: Optional[int] = -1
 
 
     model_config = {

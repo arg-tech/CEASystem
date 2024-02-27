@@ -1,0 +1,969 @@
+{
+  "descriptorfulfillments": [],
+  "edges": [
+    {
+      "edgeID": 2,
+      "fromID": 3,
+      "toID": 5
+    },
+    {
+      "edgeID": 3,
+      "fromID": 5,
+      "toID": 4
+    },
+    {
+      "edgeID": 4,
+      "fromID": 6,
+      "toID": 8
+    },
+    {
+      "edgeID": 5,
+      "fromID": 8,
+      "toID": 7
+    },
+    {
+      "edgeID": 6,
+      "fromID": 9,
+      "toID": 11
+    },
+    {
+      "edgeID": 7,
+      "fromID": 11,
+      "toID": 10
+    },
+    {
+      "edgeID": 8,
+      "fromID": 12,
+      "toID": 14
+    },
+    {
+      "edgeID": 9,
+      "fromID": 14,
+      "toID": 13
+    },
+    {
+      "edgeID": 10,
+      "fromID": 15,
+      "toID": 17
+    },
+    {
+      "edgeID": 11,
+      "fromID": 17,
+      "toID": 16
+    },
+    {
+      "edgeID": 12,
+      "fromID": 18,
+      "toID": 20
+    },
+    {
+      "edgeID": 13,
+      "fromID": 20,
+      "toID": 19
+    },
+    {
+      "edgeID": 14,
+      "fromID": 21,
+      "toID": 23
+    },
+    {
+      "edgeID": 15,
+      "fromID": 23,
+      "toID": 22
+    },
+    {
+      "edgeID": 16,
+      "fromID": 24,
+      "toID": 26
+    },
+    {
+      "edgeID": 17,
+      "fromID": 26,
+      "toID": 25
+    },
+    {
+      "edgeID": 18,
+      "fromID": 27,
+      "toID": 29
+    },
+    {
+      "edgeID": 19,
+      "fromID": 29,
+      "toID": 28
+    },
+    {
+      "edgeID": 20,
+      "fromID": 30,
+      "toID": 32
+    },
+    {
+      "edgeID": 21,
+      "fromID": 32,
+      "toID": 31
+    },
+    {
+      "edgeID": 22,
+      "fromID": 33,
+      "toID": 35
+    },
+    {
+      "edgeID": 23,
+      "fromID": 35,
+      "toID": 34
+    },
+    {
+      "edgeID": 24,
+      "fromID": 36,
+      "toID": 38
+    },
+    {
+      "edgeID": 25,
+      "fromID": 38,
+      "toID": 37
+    },
+    {
+      "edgeID": 26,
+      "fromID": 39,
+      "toID": 41
+    },
+    {
+      "edgeID": 27,
+      "fromID": 41,
+      "toID": 40
+    },
+    {
+      "fromID": 4,
+      "toID": 42,
+      "edgeID": 28
+    },
+    {
+      "fromID": 42,
+      "toID": 7,
+      "edgeID": 29
+    },
+    {
+      "fromID": 4,
+      "toID": 43,
+      "edgeID": 30
+    },
+    {
+      "fromID": 43,
+      "toID": 13,
+      "edgeID": 31
+    },
+    {
+      "fromID": 4,
+      "toID": 44,
+      "edgeID": 32
+    },
+    {
+      "fromID": 44,
+      "toID": 28,
+      "edgeID": 33
+    },
+    {
+      "fromID": 4,
+      "toID": 45,
+      "edgeID": 34
+    },
+    {
+      "fromID": 45,
+      "toID": 31,
+      "edgeID": 35
+    },
+    {
+      "fromID": 7,
+      "toID": 46,
+      "edgeID": 36
+    },
+    {
+      "fromID": 46,
+      "toID": 10,
+      "edgeID": 37
+    },
+    {
+      "fromID": 7,
+      "toID": 47,
+      "edgeID": 38
+    },
+    {
+      "fromID": 47,
+      "toID": 13,
+      "edgeID": 39
+    },
+    {
+      "fromID": 7,
+      "toID": 48,
+      "edgeID": 40
+    },
+    {
+      "fromID": 48,
+      "toID": 16,
+      "edgeID": 41
+    },
+    {
+      "fromID": 7,
+      "toID": 49,
+      "edgeID": 42
+    },
+    {
+      "fromID": 49,
+      "toID": 19,
+      "edgeID": 43
+    },
+    {
+      "fromID": 7,
+      "toID": 50,
+      "edgeID": 44
+    },
+    {
+      "fromID": 50,
+      "toID": 28,
+      "edgeID": 45
+    },
+    {
+      "fromID": 7,
+      "toID": 51,
+      "edgeID": 46
+    },
+    {
+      "fromID": 51,
+      "toID": 37,
+      "edgeID": 47
+    },
+    {
+      "fromID": 7,
+      "toID": 52,
+      "edgeID": 48
+    },
+    {
+      "fromID": 52,
+      "toID": 40,
+      "edgeID": 49
+    },
+    {
+      "fromID": 10,
+      "toID": 53,
+      "edgeID": 50
+    },
+    {
+      "fromID": 53,
+      "toID": 13,
+      "edgeID": 51
+    },
+    {
+      "fromID": 10,
+      "toID": 54,
+      "edgeID": 52
+    },
+    {
+      "fromID": 54,
+      "toID": 22,
+      "edgeID": 53
+    },
+    {
+      "fromID": 10,
+      "toID": 55,
+      "edgeID": 54
+    },
+    {
+      "fromID": 55,
+      "toID": 25,
+      "edgeID": 55
+    },
+    {
+      "fromID": 10,
+      "toID": 56,
+      "edgeID": 56
+    },
+    {
+      "fromID": 56,
+      "toID": 28,
+      "edgeID": 57
+    },
+    {
+      "fromID": 10,
+      "toID": 57,
+      "edgeID": 58
+    },
+    {
+      "fromID": 57,
+      "toID": 37,
+      "edgeID": 59
+    },
+    {
+      "fromID": 10,
+      "toID": 58,
+      "edgeID": 60
+    },
+    {
+      "fromID": 58,
+      "toID": 40,
+      "edgeID": 61
+    },
+    {
+      "fromID": 13,
+      "toID": 59,
+      "edgeID": 62
+    },
+    {
+      "fromID": 59,
+      "toID": 16,
+      "edgeID": 63
+    },
+    {
+      "fromID": 13,
+      "toID": 60,
+      "edgeID": 64
+    },
+    {
+      "fromID": 60,
+      "toID": 19,
+      "edgeID": 65
+    },
+    {
+      "fromID": 13,
+      "toID": 61,
+      "edgeID": 66
+    },
+    {
+      "fromID": 61,
+      "toID": 37,
+      "edgeID": 67
+    },
+    {
+      "fromID": 13,
+      "toID": 62,
+      "edgeID": 68
+    },
+    {
+      "fromID": 62,
+      "toID": 40,
+      "edgeID": 69
+    },
+    {
+      "fromID": 16,
+      "toID": 63,
+      "edgeID": 70
+    },
+    {
+      "fromID": 63,
+      "toID": 19,
+      "edgeID": 71
+    },
+    {
+      "fromID": 16,
+      "toID": 64,
+      "edgeID": 72
+    },
+    {
+      "fromID": 64,
+      "toID": 31,
+      "edgeID": 73
+    },
+    {
+      "fromID": 16,
+      "toID": 65,
+      "edgeID": 74
+    },
+    {
+      "fromID": 65,
+      "toID": 40,
+      "edgeID": 75
+    },
+    {
+      "fromID": 19,
+      "toID": 66,
+      "edgeID": 76
+    },
+    {
+      "fromID": 66,
+      "toID": 28,
+      "edgeID": 77
+    },
+    {
+      "fromID": 19,
+      "toID": 67,
+      "edgeID": 78
+    },
+    {
+      "fromID": 67,
+      "toID": 31,
+      "edgeID": 79
+    },
+    {
+      "fromID": 22,
+      "toID": 68,
+      "edgeID": 80
+    },
+    {
+      "fromID": 68,
+      "toID": 34,
+      "edgeID": 81
+    },
+    {
+      "fromID": 22,
+      "toID": 69,
+      "edgeID": 82
+    },
+    {
+      "fromID": 69,
+      "toID": 37,
+      "edgeID": 83
+    },
+    {
+      "fromID": 28,
+      "toID": 70,
+      "edgeID": 84
+    },
+    {
+      "fromID": 70,
+      "toID": 37,
+      "edgeID": 85
+    },
+    {
+      "fromID": 28,
+      "toID": 71,
+      "edgeID": 86
+    },
+    {
+      "fromID": 71,
+      "toID": 40,
+      "edgeID": 87
+    },
+    {
+      "fromID": 31,
+      "toID": 72,
+      "edgeID": 88
+    },
+    {
+      "fromID": 72,
+      "toID": 37,
+      "edgeID": 89
+    },
+    {
+      "fromID": 31,
+      "toID": 73,
+      "edgeID": 90
+    },
+    {
+      "fromID": 73,
+      "toID": 40,
+      "edgeID": 91
+    },
+    {
+      "fromID": 34,
+      "toID": 74,
+      "edgeID": 92
+    },
+    {
+      "fromID": 74,
+      "toID": 37,
+      "edgeID": 93
+    },
+    {
+      "fromID": 37,
+      "toID": 75,
+      "edgeID": 94
+    },
+    {
+      "fromID": 75,
+      "toID": 40,
+      "edgeID": 95
+    }
+  ],
+  "locutions": [
+    {
+      "nodeID": 3,
+      "personID": 1
+    },
+    {
+      "nodeID": 6,
+      "personID": 1
+    },
+    {
+      "nodeID": 9,
+      "personID": 1
+    },
+    {
+      "nodeID": 12,
+      "personID": 1
+    },
+    {
+      "nodeID": 15,
+      "personID": 1
+    },
+    {
+      "nodeID": 18,
+      "personID": 1
+    },
+    {
+      "nodeID": 21,
+      "personID": 1
+    },
+    {
+      "nodeID": 24,
+      "personID": 1
+    },
+    {
+      "nodeID": 27,
+      "personID": 1
+    },
+    {
+      "nodeID": 30,
+      "personID": 1
+    },
+    {
+      "nodeID": 33,
+      "personID": 1
+    },
+    {
+      "nodeID": 36,
+      "personID": 1
+    },
+    {
+      "nodeID": 39,
+      "personID": 1
+    }
+  ],
+  "nodes": [
+    {
+      "nodeID": 3,
+      "text": "In recent years, there has been a growing push towards renewable energy sources as a solution to combat climate change",
+      "type": "L"
+    },
+    {
+      "nodeID": 4,
+      "text": "In recent years, there has been a growing push towards renewable energy sources as a solution to combat climate change",
+      "type": "I"
+    },
+    {
+      "nodeID": 5,
+      "text": "Default Illocuting",
+      "type": "YA"
+    },
+    {
+      "nodeID": 6,
+      "text": "The transition to renewables not only helps the environment but also has positive effects on the economy",
+      "type": "L"
+    },
+    {
+      "nodeID": 7,
+      "text": "The transition to renewables not only helps the environment but also has positive effects on the economy",
+      "type": "I"
+    },
+    {
+      "nodeID": 8,
+      "text": "Default Illocuting",
+      "type": "YA"
+    },
+    {
+      "nodeID": 9,
+      "text": "However, the economic impact is overstated and that the costs associated with renewable energy outweigh the benefits",
+      "type": "L"
+    },
+    {
+      "nodeID": 10,
+      "text": "However, the economic impact is overstated and that the costs associated with renewable energy outweigh the benefits",
+      "type": "I"
+    },
+    {
+      "nodeID": 11,
+      "text": "Default Illocuting",
+      "type": "YA"
+    },
+    {
+      "nodeID": 12,
+      "text": "The renewable energy sector has experienced significant job growth and it was created over 500,000 jobs in the last five years, providing stable employment opportunities in manufacturing, installation, and maintenance",
+      "type": "L"
+    },
+    {
+      "nodeID": 13,
+      "text": "The renewable energy sector has experienced significant job growth and it was created over 500,000 jobs in the last five years, providing stable employment opportunities in manufacturing, installation, and maintenance",
+      "type": "I"
+    },
+    {
+      "nodeID": 14,
+      "text": "Default Illocuting",
+      "type": "YA"
+    },
+    {
+      "nodeID": 15,
+      "text": "On the contrary, the job creation in this sector is largely offset by job losses in traditional energy industries",
+      "type": "L"
+    },
+    {
+      "nodeID": 16,
+      "text": "On the contrary, the job creation in this sector is largely offset by job losses in traditional energy industries",
+      "type": "I"
+    },
+    {
+      "nodeID": 17,
+      "text": "Default Illocuting",
+      "type": "YA"
+    },
+    {
+      "nodeID": 18,
+      "text": "For every job created in renewable energy, two jobs are lost in the fossil fuel sector, leading to a net negative impact on overall employment",
+      "type": "L"
+    },
+    {
+      "nodeID": 19,
+      "text": "For every job created in renewable energy, two jobs are lost in the fossil fuel sector, leading to a net negative impact on overall employment",
+      "type": "I"
+    },
+    {
+      "nodeID": 20,
+      "text": "Default Illocuting",
+      "type": "YA"
+    },
+    {
+      "nodeID": 21,
+      "text": "The initial costs of transitioning to renewable energy are substantial",
+      "type": "L"
+    },
+    {
+      "nodeID": 22,
+      "text": "The initial costs of transitioning to renewable energy are substantial",
+      "type": "I"
+    },
+    {
+      "nodeID": 23,
+      "text": "Default Illocuting",
+      "type": "YA"
+    },
+    {
+      "nodeID": 24,
+      "text": "On the other hand, the long-term benefits, such as reduced environmental damage and healthcare savings, outweigh the upfront expenses",
+      "type": "L"
+    },
+    {
+      "nodeID": 25,
+      "text": "On the other hand, the long-term benefits, such as reduced environmental damage and healthcare savings, outweigh the upfront expenses",
+      "type": "I"
+    },
+    {
+      "nodeID": 26,
+      "text": "Default Illocuting",
+      "type": "YA"
+    },
+    {
+      "nodeID": 27,
+      "text": "Renewable energy leads the decreasing costs of solar and wind technologies, making them more economically viable",
+      "type": "L"
+    },
+    {
+      "nodeID": 28,
+      "text": "Renewable energy leads the decreasing costs of solar and wind technologies, making them more economically viable",
+      "type": "I"
+    },
+    {
+      "nodeID": 29,
+      "text": "Default Illocuting",
+      "type": "YA"
+    },
+    {
+      "nodeID": 30,
+      "text": "They claim that the cost of solar panels has decreased by 80% in the last decade, making it competitive with traditional energy sources in many regions",
+      "type": "L"
+    },
+    {
+      "nodeID": 31,
+      "text": "They claim that the cost of solar panels has decreased by 80% in the last decade, making it competitive with traditional energy sources in many regions",
+      "type": "I"
+    },
+    {
+      "nodeID": 32,
+      "text": "Default Illocuting",
+      "type": "YA"
+    },
+    {
+      "nodeID": 33,
+      "text": "However, the intermittent nature of renewable energy sources, such as solar and wind, makes them unreliable and necessitates backup from traditional energy sources",
+      "type": "L"
+    },
+    {
+      "nodeID": 34,
+      "text": "However, the intermittent nature of renewable energy sources, such as solar and wind, makes them unreliable and necessitates backup from traditional energy sources",
+      "type": "I"
+    },
+    {
+      "nodeID": 35,
+      "text": "Default Illocuting",
+      "type": "YA"
+    },
+    {
+      "nodeID": 36,
+      "text": "They claim that this backup increases overall costs and undermines the economic feasibility of relying solely on renewables",
+      "type": "L"
+    },
+    {
+      "nodeID": 37,
+      "text": "They claim that this backup increases overall costs and undermines the economic feasibility of relying solely on renewables",
+      "type": "I"
+    },
+    {
+      "nodeID": 38,
+      "text": "Default Illocuting",
+      "type": "YA"
+    },
+    {
+      "nodeID": 39,
+      "text": "So, the provided evidences cast doubts on the effectiveness and sustainability of the renewable energy are overetimated and it creates more harm than good",
+      "type": "L"
+    },
+    {
+      "nodeID": 40,
+      "text": "So, the provided evidences cast doubts on the effectiveness and sustainability of the renewable energy are overetimated and it creates more harm than good",
+      "type": "I"
+    },
+    {
+      "nodeID": 41,
+      "text": "Default Illocuting",
+      "type": "YA"
+    },
+    {
+      "text": "Default Inference",
+      "type": "RA",
+      "nodeID": 42
+    },
+    {
+      "text": "Default Inference",
+      "type": "RA",
+      "nodeID": 43
+    },
+    {
+      "text": "Default Inference",
+      "type": "RA",
+      "nodeID": 44
+    },
+    {
+      "text": "Default Inference",
+      "type": "RA",
+      "nodeID": 45
+    },
+    {
+      "text": "Default Conflict",
+      "type": "CA",
+      "nodeID": 46
+    },
+    {
+      "text": "Default Inference",
+      "type": "RA",
+      "nodeID": 47
+    },
+    {
+      "text": "Default Inference",
+      "type": "RA",
+      "nodeID": 48
+    },
+    {
+      "text": "Default Conflict",
+      "type": "CA",
+      "nodeID": 49
+    },
+    {
+      "text": "Default Inference",
+      "type": "RA",
+      "nodeID": 50
+    },
+    {
+      "text": "Default Conflict",
+      "type": "CA",
+      "nodeID": 51
+    },
+    {
+      "text": "Default Conflict",
+      "type": "CA",
+      "nodeID": 52
+    },
+    {
+      "text": "Default Conflict",
+      "type": "CA",
+      "nodeID": 53
+    },
+    {
+      "text": "Default Inference",
+      "type": "RA",
+      "nodeID": 54
+    },
+    {
+      "text": "Default Inference",
+      "type": "RA",
+      "nodeID": 55
+    },
+    {
+      "text": "Default Conflict",
+      "type": "CA",
+      "nodeID": 56
+    },
+    {
+      "text": "Default Inference",
+      "type": "RA",
+      "nodeID": 57
+    },
+    {
+      "text": "Default Inference",
+      "type": "RA",
+      "nodeID": 58
+    },
+    {
+      "text": "Default Conflict",
+      "type": "CA",
+      "nodeID": 59
+    },
+    {
+      "text": "Default Conflict",
+      "type": "CA",
+      "nodeID": 60
+    },
+    {
+      "text": "Default Conflict",
+      "type": "CA",
+      "nodeID": 61
+    },
+    {
+      "text": "Default Conflict",
+      "type": "CA",
+      "nodeID": 62
+    },
+    {
+      "text": "Default Inference",
+      "type": "RA",
+      "nodeID": 63
+    },
+    {
+      "text": "Default Conflict",
+      "type": "CA",
+      "nodeID": 64
+    },
+    {
+      "text": "Default Conflict",
+      "type": "CA",
+      "nodeID": 65
+    },
+    {
+      "text": "Default Conflict",
+      "type": "CA",
+      "nodeID": 66
+    },
+    {
+      "text": "Default Conflict",
+      "type": "CA",
+      "nodeID": 67
+    },
+    {
+      "text": "Default Inference",
+      "type": "RA",
+      "nodeID": 68
+    },
+    {
+      "text": "Default Inference",
+      "type": "RA",
+      "nodeID": 69
+    },
+    {
+      "text": "Default Conflict",
+      "type": "CA",
+      "nodeID": 70
+    },
+    {
+      "text": "Default Conflict",
+      "type": "CA",
+      "nodeID": 71
+    },
+    {
+      "text": "Default Conflict",
+      "type": "CA",
+      "nodeID": 72
+    },
+    {
+      "text": "Default Conflict",
+      "type": "CA",
+      "nodeID": 73
+    },
+    {
+      "text": "Default Inference",
+      "type": "RA",
+      "nodeID": 74
+    },
+    {
+      "text": "Default Inference",
+      "type": "RA",
+      "nodeID": 75
+    }
+  ],
+  "participants": [
+    {
+      "firstname": "Default",
+      "participantID": 1,
+      "surname": "Speaker"
+    },
+    {
+      "firstname": "Default",
+      "participantID": 1,
+      "surname": "Speaker"
+    },
+    {
+      "firstname": "Default",
+      "participantID": 1,
+      "surname": "Speaker"
+    },
+    {
+      "firstname": "Default",
+      "participantID": 1,
+      "surname": "Speaker"
+    },
+    {
+      "firstname": "Default",
+      "participantID": 1,
+      "surname": "Speaker"
+    },
+    {
+      "firstname": "Default",
+      "participantID": 1,
+      "surname": "Speaker"
+    },
+    {
+      "firstname": "Default",
+      "participantID": 1,
+      "surname": "Speaker"
+    },
+    {
+      "firstname": "Default",
+      "participantID": 1,
+      "surname": "Speaker"
+    },
+    {
+      "firstname": "Default",
+      "participantID": 1,
+      "surname": "Speaker"
+    },
+    {
+      "firstname": "Default",
+      "participantID": 1,
+      "surname": "Speaker"
+    },
+    {
+      "firstname": "Default",
+      "participantID": 1,
+      "surname": "Speaker"
+    },
+    {
+      "firstname": "Default",
+      "participantID": 1,
+      "surname": "Speaker"
+    },
+    {
+      "firstname": "Default",
+      "participantID": 1,
+      "surname": "Speaker"
+    },
+    {
+      "firstname": "Default",
+      "participantID": 1,
+      "surname": "Speaker"
+    }
+  ],
+  "schemefulfillments": []
+}
