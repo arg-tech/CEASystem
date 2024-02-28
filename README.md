@@ -247,7 +247,39 @@ Input keys:
       "The hydro stations do not provide enough electricity even for a small town of 1000 people",
       "The earth is not flat, but it is shaped as a banana",
       "Ipod was made from execcive amount of plastic"
-    ]
+    ],
+    "hypothesis_nodes": [
+      {
+        "nodeID": "1",
+        "text": "Climate change is happening",
+        "type": "I",
+        "timestamp": "2020-05-28 19:24:34"
+      },
+      {
+        "nodeID": "2",
+        "text": "governments are really slow, when it comes to reaction to the climate change",
+        "type": "I",
+        "timestamp": "2020-05-28 19:24:31"
+    },
+    {
+        "nodeID": "3",
+        "text": "renewable energy is a scam",
+        "type": "I",
+        "timestamp": "2020-05-28 19:24:35"
+    }
+],
+    "structure_hypothesis_graph": [
+    {
+        "fromID": "2",
+        "toID": "1",
+        "relation": "Asserting"
+    },
+    {
+        "fromID": "1",
+        "toID": "3",
+        "relation": "Contradiction"
+    }
+]
   }
 }
 
