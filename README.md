@@ -174,12 +174,12 @@ This request takes as an input claims and evidences. The algorithm analyzes clai
     {
         "fromID": "2",
         "toID": "1",
-        "relation": "Asserting"
+        "relation": "Default Inference"
     },
     {
         "fromID": "1",
         "toID": "3",
-        "relation": "Contradiction"
+        "relation": "Default Conflict"
     }
 ]
 }
@@ -272,12 +272,12 @@ Input keys:
     {
         "fromID": "2",
         "toID": "1",
-        "relation": "Asserting"
+        "relation": "Default Inference"
     },
     {
         "fromID": "1",
         "toID": "3",
-        "relation": "Contradiction"
+        "relation": "Default Conflict"
     }
 ]
   }
