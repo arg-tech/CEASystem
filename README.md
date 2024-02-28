@@ -105,13 +105,17 @@ Example outputs:
   }
 }
 
-# error
+
+```
+
+Error example:
+```python
 {
     "code": 400,
     "output": {"Error": "Empty text"},
 }
-
 ```
+
 <br> Output keys:
 
 * code: int, 200 or 400. 200 means successful run, 400 error.
@@ -282,8 +286,10 @@ Input keys:
 ]
   }
 }
+```
 
-# error
+Error example:
+```python
 {
     "code": 400,
     "output": {"Error": "Value Error"},
