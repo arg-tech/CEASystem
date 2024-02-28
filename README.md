@@ -316,11 +316,11 @@ All required variables are provided in the [config.py](config.py). Specifically:
 {"entailment": 2, "contradiction": 0}
 ```
 In this case, the model has 3 labels: entailment, contradiction, and neutral. We are interested in entailment and contradiction only. Make sure, that the dict has these keys with the corresponding positions in the final logits of the label.
-*SCORER_BATCH_SIZE: int, batch size to use for mnli model scoring.
-*TURNINATOR_API: str, api route to the turninator service. 
-*PROPOSITIONALIZER_API: str, api route to the propositionalizer service. 
-*SEGMENTER_API: str, api route to the segmenter service. 
-*RELATIONER_API: str, api route to the relationer service. 
+* SCORER_BATCH_SIZE: int, batch size to use for mnli model scoring.
+* TURNINATOR_API: str, api route to the turninator service. 
+* PROPOSITIONALIZER_API: str, api route to the propositionalizer service. 
+* SEGMENTER_API: str, api route to the segmenter service. 
+* RELATIONER_API: str, api route to the relationer service. 
 
 ## Running separate modules
 See [examples/](examples) on how to use modules separately.
