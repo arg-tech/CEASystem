@@ -311,9 +311,15 @@ Error example:
 
 
 ## Customizing behavior 
-All required variables are provided in the [config.py](config.py). Specifically:
+All required variables are provided in the [config.py](config.py).
+
+### Customizing claim-evidence alignment model
+
 * ALIGNER_MODEL_PATH: str, path to the directory, where pre-trained aligner classifier model. Should be in huggingface saved model format. For more details, see [evidence_alignment.py](evidence_alignment.py).
 * ALIGNER_BATCH_SIZE: int, batch size to use for aligner model.
+
+### Customizing claim-evidence model
+
 * MNLI_SCORING_MODEL: str, MNLI pretrained model to use for scoring evidences/claims. Could be a link to huggingface hub (e.g. "roberta-large-mnli") or a path to a custom pre-trained model in huggingface format.
 * MNLI_MODEL_LABEL_DECODER: python dict, label decoder for the model. Indicates, which labels to use and what they mean in the context of the task. For example:
 ```python
@@ -321,6 +327,20 @@ All required variables are provided in the [config.py](config.py). Specifically:
 ```
 In this case, the model has 3 labels: entailment, contradiction, and neutral. We are interested in entailment and contradiction only. Make sure, that the dict has these keys with the corresponding positions in the final logits of the label.
 * SCORER_BATCH_SIZE: int, batch size to use for mnli model scoring.
+
+### Customizing claim worthiness classification model
+* CLAIM_WORTHINESS_MODEL: str, pre-trained model for claim worthiness classification
+* CLAIM_WORTHINESS_BATCH_SIZE: int, batch size to use
+* CLAIM_WORTHINESS_ID2LABEL: dict, label decoder. <b>Important</b>: Labelnames should be NO and YES.
+```python
+{
+  0: "NO", # logit at the position 0 corresponds to label NO
+  1: "YES"
+}
+```
+* CLAIM_WORTHINESS_CONFIDENCE_THOLD: float from 0 to 1, the minimum probability of YES decision to be considered. For example, if the logit for YES is <= this value, it will be changed to NO. If 0.0 - will be ignored.
+
+### Customizing claim extraction and structure graph models (APIs)
 * TURNINATOR_API: str, api route to the turninator service. 
 * PROPOSITIONALIZER_API: str, api route to the propositionalizer service. 
 * SEGMENTER_API: str, api route to the segmenter service. 
