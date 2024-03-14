@@ -13,8 +13,8 @@ FROM python:3.9
 RUN mkdir /workdir
 WORKDIR /workdir
 
-COPY roberta-EvidenceAlignment-tuned-model.zip /workdir/
-RUN unzip roberta-EvidenceAlignment-tuned-model.zip
+# COPY roberta-EvidenceAlignment-tuned-model.zip /workdir/
+# RUN unzip roberta-EvidenceAlignment-tuned-model.zip
 
 COPY requirements.txt /workdir/
 COPY *.py /workdir/

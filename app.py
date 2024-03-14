@@ -7,12 +7,14 @@ from claim_extraction import RelationClaimExtractor
 from evidence_alignment import EvidenceAligner
 from evidence_scoring import AlignmentMarixFilteringScoring
 from decision_making import DecisionDistributionMaker
-
+from claim_worthiness import ClaimWorthiness
 
 from config import ALIGNER_MODEL_PATH, ALIGNER_BATCH_SIZE
-from config import (MNLI_SCORING_MODEL, MNLI_MODEL_LABEL_DECODER,
+from config import (SCORING_MODEL, SCORING_MODEL_LABEL_DECODER,
                     SCORER_BATCH_SIZE)
 from config import TURNINATOR_API, PROPOSITIONALIZER_API, SEGMENTER_API, RELATIONER_API
+from config import (CLAIM_WORTHINESS_MODEL, CLAIM_WORTHINESS_BATCH_SIZE,
+                    CLAIM_WORTHINESS_ID2LABEL, CLAIM_WORTHINESS_CONFIDENCE_THOLD)
 
 import numpy as np
 
@@ -20,8 +22,13 @@ aligner = EvidenceAligner(
     model_path_name=ALIGNER_MODEL_PATH
 )
 scorer = AlignmentMarixFilteringScoring(
-    mnli_model_name_path=MNLI_SCORING_MODEL,
-    model_label_decoder=MNLI_MODEL_LABEL_DECODER
+    mnli_model_name_path=SCORING_MODEL,
+    model_label_decoder=SCORING_MODEL_LABEL_DECODER
+)
+claim_worthiness_model = ClaimWorthiness(
+    model_path_name=CLAIM_WORTHINESS_MODEL,
+    label2id=CLAIM_WORTHINESS_ID2LABEL,
+    confidence_thold=CLAIM_WORTHINESS_CONFIDENCE_THOLD
 )
 
 # can be tested with: uvicorn en_sac:app --workers 1 --host 0.0.0.0 --port 8000
@@ -43,6 +50,13 @@ async def get_claims(input_dict: RawTextInput):
         aif_json=aif_json,
         keep_ya_nodes_texts=input_dict.keep_ya_nodes_texts
     )
+
+    claim_nodes_dicts, structure_claims_graph = claim_worthiness_model.predict(
+        claim_nodes_dicts=claim_nodes_dicts,
+        structure_claims_graph=structure_claims_graph,
+        batch_size=CLAIM_WORTHINESS_BATCH_SIZE
+    )
+
     claim_texts = [x["text"] for x in claim_nodes_dicts]
 
     if not len(claim_texts):

@@ -85,7 +85,7 @@ class RelationClaimExtractor:
     @classmethod
     def get_claim_nodes_aif(cls, aif_json: Dict[str, Any],
                             keep_ya_nodes_texts: List[str] = []
-                            ) -> Tuple[List[Dict[str, Any]], List[Dict[str, str]]]:
+                            ) -> Tuple[List[Dict[str, Any]], List[Dict[str, Union[str ,int]]]]:
         """
 
         :param aif_json:
