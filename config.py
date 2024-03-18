@@ -3,8 +3,8 @@ ALIGNER_MODEL_PATH = "yevhenkost/cutiesRun28-05-2020-roberta-base-evidenceAlignm
 ALIGNER_BATCH_SIZE = 6
 
 # SCORING CONFIG VARIABLES
-MNLI_SCORING_MODEL = "roberta-large-mnli"
-MNLI_MODEL_LABEL_DECODER = {"entailment": 2, "contradiction": 0}
+SCORING_MODEL = "roberta-large-mnli"
+SCORING_MODEL_LABEL_DECODER = {"entailment": 2, "contradiction": 0}
 SCORER_BATCH_SIZE = 6
 
 # CLAIM WORTHINESS VARIABLES
@@ -17,4 +17,10 @@ CLAIM_WORTHINESS_CONFIDENCE_THOLD = 0.8
 TURNINATOR_API = "http://amf2.arg.tech/turninator-01"
 PROPOSITIONALIZER_API = "http://amf2.arg.tech/propositionUnitizer-01"
 SEGMENTER_API = "http://amf2.arg.tech/segmenter-01"
-RELATIONER_API = "http://amf2.arg.tech/bert-te"
+
+# Legacy 8n8 deployed service
+# RELATIONER_API = "http://amf2.arg.tech/bert-te"
+
+# New service - new method. If changing to 8n8, make sure to adjust in parsing_components.py
+# the way it loads and processing of inputs and outpus
+RELATIONER_API = "http://127.0.0.1:5002/bert-te-from-json"

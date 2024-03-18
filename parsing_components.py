@@ -82,6 +82,14 @@ class AMFComponents:
         )
 
     @classmethod
+    def _run_relationer_xaif(cls, api_address, xaif_json):
+        output = requests.post(
+            url=api_address,
+            json=xaif_json
+        )
+        return output.json()
+
+    @classmethod
     def parse_text_to_xaif(cls,
                            turninator_api,
                            propositionalizer_api,
@@ -101,7 +109,11 @@ class AMFComponents:
         xaif_json = cls._run_turninator(turninator_api, text)
         prop_xaif_json = cls._run_propositionalizer(propositionalizer_api, xaif_json)
         segm_xaif_json = cls._run_segmenter(segmenter_api, prop_xaif_json)
-        relat_xaif_json = cls._run_relationer(relationer_api, segm_xaif_json)
+
+        # LEGACY 8n8 deployed service - now runs locally
+        # relat_xaif_json = cls._run_relationer(relationer_api, segm_xaif_json)
+        relat_xaif_json = cls._run_relationer_xaif(relationer_api, segm_xaif_json)
+
         return relat_xaif_json
 
 

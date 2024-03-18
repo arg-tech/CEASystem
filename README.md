@@ -346,6 +346,10 @@ In this case, the model has 3 labels: entailment, contradiction, and neutral. We
 * SEGMENTER_API: str, api route to the segmenter service. 
 * RELATIONER_API: str, api route to the relationer service. 
 
+<b>Important:</b> RELATIONER_API has a different way of loading and preprocessing data. 
+If using 8n8 endpoint, change [parsing_components.py](parsing_components.py).
+See [GitHub Repo](https://github.com/arg-tech/bert-te/tree/main).
+
 ## Running separate modules
 See [examples/](examples) on how to use modules separately.
 If you need only one specific module, you can find them and their description in the corresponding files:
