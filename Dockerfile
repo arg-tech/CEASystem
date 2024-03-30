@@ -13,14 +13,14 @@ FROM python:3.9
 RUN mkdir /workdir
 WORKDIR /workdir
 
-# COPY roberta-EvidenceAlignment-tuned-model.zip /workdir/
-# RUN unzip roberta-EvidenceAlignment-tuned-model.zip
-
 COPY requirements.txt /workdir/
 COPY *.py /workdir/
 
-#install the requirements
+# install the requirements
 RUN pip install -r requirements.txt
+
+# download required resources
+RUN python setup.py
 
 EXPOSE 8000
 
