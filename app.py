@@ -2,22 +2,28 @@ from fastapi import FastAPI
 from formats import RawTextInput, ParsedTextOutput, \
                      return_error_codes, ClaimsEvidenceInput, AnalyzedOutput, prepare_output
 
-from parsing_components import AMFComponents
-from claim_extraction import RelationClaimExtractor
+from parsing_components import DummyAIF
 from evidence_alignment import EvidenceAligner
 from evidence_scoring import AlignmentMarixFilteringScoring
 from decision_making import DecisionDistributionMaker
 from claim_worthiness import ClaimWorthiness
+from claim_detection import ClaimExtractor
 
 from config import ALIGNER_MODEL_PATH, ALIGNER_BATCH_SIZE
 from config import (SCORING_MODEL, SCORING_MODEL_LABEL_DECODER,
                     SCORER_BATCH_SIZE)
-from config import TURNINATOR_API, PROPOSITIONALIZER_API, SEGMENTER_API, RELATIONER_API
+from config import (CLAIM_EXTRACTOR_MODEL_PATH, CLAIM_EXTRACTOR_KEEP_LOGIT_IDX,
+                    CLAIM_EXTRACTOR_CONFIDENCE_THOLD, CLAIM_EXTRACTOR_BATCH_SIZE)
 from config import (CLAIM_WORTHINESS_MODEL, CLAIM_WORTHINESS_BATCH_SIZE,
                     CLAIM_WORTHINESS_ID2LABEL, CLAIM_WORTHINESS_CONFIDENCE_THOLD)
 
 import numpy as np
 
+claim_extractor = ClaimExtractor(
+    model_path_name=CLAIM_EXTRACTOR_MODEL_PATH,
+    keep_logit_idx=CLAIM_EXTRACTOR_KEEP_LOGIT_IDX,
+    conf_thold=CLAIM_EXTRACTOR_CONFIDENCE_THOLD
+)
 aligner = EvidenceAligner(
     model_path_name=ALIGNER_MODEL_PATH
 )
@@ -31,25 +37,23 @@ claim_worthiness_model = ClaimWorthiness(
     confidence_thold=CLAIM_WORTHINESS_CONFIDENCE_THOLD
 )
 
+
 # can be tested with: uvicorn en_sac:app --workers 1 --host 0.0.0.0 --port 8000
 app = FastAPI()
 
 @return_error_codes()
 @app.post("/get_claims/", response_model=ParsedTextOutput)
 async def get_claims(input_dict: RawTextInput):
-    aif_json = AMFComponents.parse_text_to_xaif(
-        turninator_api=TURNINATOR_API,
-        propositionalizer_api=PROPOSITIONALIZER_API,
-        segmenter_api=SEGMENTER_API,
-        relationer_api=RELATIONER_API,
-        text=input_dict.text
-    )
-    aif_json = aif_json["AIF"]
 
-    claim_nodes_dicts, structure_claims_graph = RelationClaimExtractor.get_claim_nodes_aif(
-        aif_json=aif_json,
-        keep_ya_nodes_texts=input_dict.keep_ya_nodes_texts
+    # Extracting claims.
+    # The graph tools are nor build yet, so leave it empty
+    claims = claim_extractor.get_claims(
+        text=input_dict.text,
+        batch_size=CLAIM_EXTRACTOR_BATCH_SIZE
     )
+    aif_json = DummyAIF.make_aif(texts=claims)
+    claim_nodes_dicts = aif_json["nodes"]
+    structure_claims_graph = []
 
     claim_nodes_dicts, structure_claims_graph = claim_worthiness_model.predict(
         claim_nodes_dicts=claim_nodes_dicts,

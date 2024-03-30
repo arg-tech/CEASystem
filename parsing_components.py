@@ -2,6 +2,63 @@ import requests
 import tempfile
 import json
 
+from typing import List, Dict, Union, Any
+
+class DummyAIF:
+    @classmethod
+    def make_aif(cls, texts:List[str]) -> Dict[str, List[Dict[str, Union[str, int]]]]:
+        """
+        Creating a dummy AIF dict with all the fields included. Populating "nodes" with
+            provided texts as I-nodes and ids one-by-one
+
+        Example:
+            texts = ["Never gonna", "give you up"]
+        Output:
+            {
+            "nodes": [
+                 {
+                    "nodeID": 0,
+                    "text": "Never gonna",
+                    "type": "I"
+                 },
+                 {
+                    "nodeID": 1,
+                    "text": "give you up",
+                    "type": "I"
+                 }
+            ],
+            "edges": [],
+            "schemefulfillments": [],
+            "participants": [],
+            "locutions": [],
+            "descriptorfulfillments": [],
+            "cqdescriptorfulfillments": []
+            }
+
+        :param texts: list of str, texts to convert to AIF
+        :return: dict, AIF formatted json
+        """
+
+        aif_json = {
+            "nodes": [],
+            "edges": [],
+            "schemefulfillments": [],
+            "participants": [],
+            "locutions": [],
+            "descriptorfulfillments": [],
+            "cqdescriptorfulfillments": []
+        }
+
+        for i, text in enumerate(texts):
+            aif_json["nodes"].append(
+                {
+                    "nodeID": i,
+                    "text": text,
+                    "type": "I"
+                }
+            )
+        return aif_json
+
 class AMFComponents:
 
     """

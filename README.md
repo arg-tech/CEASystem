@@ -2,7 +2,7 @@
 
 ## About The Project
 This project aims to automate and help in decision-making process based on the analysis of competitive hypothesis methodology (ACH).
-The project contains modules, ready-to-use fastAPI-based service and simple niceGUI-based UI containers.
+The project contains modules and ready-to-use fastAPI-based service.
 
 ## Project Components and Architecture
 ![Alt text](CEASservices.png)
@@ -11,7 +11,7 @@ On the picture, the overall flow of modules is presented. The input text is conv
 On the next step, the claims are retrieved and filtered by worthiness from the AIF graph by the rule-based approach. The provided claims are then evaluated manually and a set of evidences for the claims is provided to the system.
 Claims and evidences are processed by the alignment model to determine which evidence is relevant to which claims. The obtained binary alignment matrix passed through the filtering and scoring models. Models decide how influential evidences are to the claims. Some of them will be filtered (e.g. if evidence supports all or none of the claims).
 Finally, based on the scoring matrix the decision is drawn as a set of scores, how likely or unlikely for the claim to be rejected or accepted. The closer the score to +1, the more likely for the claim to be accepted. The closer it to -1, the more likely for the claim to be rejected. 
-As an explanation otput, the final scoring matrix is provided, with the indications on which evidences were filtered.
+As an explanation output, the final scoring matrix is provided, with the indications on which evidences were filtered.
 <br> More details will be provided further.
 
 # Getting Started
@@ -54,7 +54,7 @@ This request takes as an input text and parses it into the claims. Under the hoo
 ```
 Input fields:
 * text: str, required. Unprocessed article to parse.
-* <i>keep_ya_nodes_texts</i>: list of str, optional. Default: []. The expected input is a list of texts for YA nodes from AIF 
+* (NOT IN USE AT THE MOMENT)<i>keep_ya_nodes_texts</i>: list of str, optional. Default: []. The expected input is a list of texts for YA nodes from AIF 
 edges format (e.g. "Default Inference", "Default Conflict", etc) to consider to be a parent of the possible type I node claim. Others will not be considered as claims. If [], will be ignored.
 
 Example outputs:
@@ -313,6 +313,12 @@ Error example:
 ## Customizing behavior 
 All required variables are provided in the [config.py](config.py).
 
+### Customizing claim extraction model
+* CLAIM_EXTRACTOR_MODEL_PATH: str, path to the directory/huggingaface hub link, where pre-trained claim detection model is. For more details, see [claim_detection.py](claim_detection.py).
+* CLAIM_EXTRACTOR_KEEP_LOGIT_IDX: int, location of the class logit in the model outputs, which is keep class. The predicted scores for this index will be retrieved and tholded.
+* CLAIM_EXTRACTOR_CONFIDENCE_THOLD: float, thold for the keep class (CLAIM_EXTRACTOR_KEEP_LOGIT_IDX) to consider claim candidate to be kept. If the score >= this value - the claim will be kept.
+* CLAIM_EXTRACTOR_BATCH_SIZE: int, batch size to use for predictions
+
 ### Customizing claim-evidence alignment model
 
 * ALIGNER_MODEL_PATH: str, path to the directory, where pre-trained aligner classifier model. Should be in huggingface saved model format. For more details, see [evidence_alignment.py](evidence_alignment.py).
@@ -340,15 +346,6 @@ In this case, the model has 3 labels: entailment, contradiction, and neutral. We
 ```
 * CLAIM_WORTHINESS_CONFIDENCE_THOLD: float from 0 to 1, the minimum probability of YES decision to be considered. For example, if the logit for YES is <= this value, it will be changed to NO. If 0.0 - will be ignored.
 
-### Customizing claim extraction and structure graph models (APIs)
-* TURNINATOR_API: str, api route to the turninator service. 
-* PROPOSITIONALIZER_API: str, api route to the propositionalizer service. 
-* SEGMENTER_API: str, api route to the segmenter service. 
-* RELATIONER_API: str, api route to the relationer service. 
-
-<b>Important:</b> RELATIONER_API has a different way of loading and preprocessing data. 
-If using 8n8 endpoint, change [parsing_components.py](parsing_components.py).
-See [GitHub Repo](https://github.com/arg-tech/bert-te/tree/main).
 
 ## Running separate modules
 See [examples/](examples) on how to use modules separately.
