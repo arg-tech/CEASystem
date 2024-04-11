@@ -1,3 +1,7 @@
+<div style="text-align:center;">
+    <img src="imgs/CEAS-logo.png" alt="Image Description" width="100%">
+</div>
+
 # CEASystem: Claim-Evidence Analyzer System
 
 ## About The Project
@@ -5,7 +9,7 @@ This project aims to automate and help in decision-making process based on the a
 The project contains modules and ready-to-use fastAPI-based service.
 
 ## Project Components and Architecture
-![Alt text](CEASservices.png)
+![Alt text](imgs/CEASservices.png)
 
 On the picture, the overall flow of modules is presented. The input text is converted to the [AIF](http://www.arg-tech.org/wp-content/uploads/2011/09/aif-spec.pdf) format (see [aif_graph.json](examples%2Faif_graph.json)) for the example.
 On the next step, the claims are retrieved and filtered by worthiness from the AIF graph by the rule-based approach. The provided claims are then evaluated manually and a set of evidences for the claims is provided to the system.
