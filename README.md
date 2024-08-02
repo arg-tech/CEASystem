@@ -58,8 +58,6 @@ This request takes as an input text and parses it into the claims. Under the hoo
 ```
 Input fields:
 * text: str, required. Unprocessed article to parse.
-* (NOT IN USE AT THE MOMENT)<i>keep_ya_nodes_texts</i>: list of str, optional. Default: []. The expected input is a list of texts for YA nodes from AIF 
-edges format (e.g. "Default Inference", "Default Conflict", etc) to consider to be a parent of the possible type I node claim. Others will not be considered as claims. If [], will be ignored.
 
 Example outputs:
 ```python
@@ -193,8 +191,9 @@ This request takes as an input claims and evidences. The algorithm analyzes clai
 
 Input keys:
 * hypothesis, evidences: list of str, hypothesis and evidences to score and align.
-* hypothesis_nodes: list of dicts; meta info of nodes retrieved from the graph. It will be used to reorder info based on decision scores per hypothesis. It is required for the article generation (separate service).
-* structure_hypothesis_graph: list of dicts; relationships between the nodes (cut of the graph). It is required for the article generation (separate service).
+* manual_evidences: list of str, evidences to use in analysis of hypotheses.
+* hypothesis_nodes: OPTIONAL; list of dicts; meta info of nodes retrieved from the graph. It will be used to reorder info based on decision scores per hypothesis. It is required for the article generation (separate service).
+* structure_hypothesis_graph: OPTIONAL; list of dicts; relationships between the nodes (cut of the graph). It is required for the article generation (separate service).
 * min_alignment_limit: Optional - int, default = -1, minimum aligned limit. If >= 0, the evidences that support <= min_alignment_limit claims will be removed. If -1, will be ignored
 * max_alignment_limit: Optional - int, default = -1, maximum aligned limit. If >= 0, the evidences that support >= max_alignment_limit claims will be removed. If -1, will be ignored 
 

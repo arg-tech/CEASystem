@@ -39,7 +39,10 @@ def prepare_output(ordered_decision_scores_dict, scoring_matrix,
     """
     request_output_dict = {}
     request_output_dict["ordered_hypothesises"] = [hypothesis[i] for i in ordered_decision_scores_dict["order_ids"]]
-    request_output_dict["ordered_hypothesises_nodeids"] = [hypothesis_nodes[i] for i in ordered_decision_scores_dict["order_ids"]]
+    if hypothesis_nodes:
+        request_output_dict["ordered_hypothesises_nodeids"] = [hypothesis_nodes[i] for i in ordered_decision_scores_dict["order_ids"]]
+    else:
+        request_output_dict["ordered_hypothesises_nodeids"] = []
     request_output_dict["ordered_hypothesises_scores"] = [round(x, 3) for x in ordered_decision_scores_dict["scores"]]
 
     request_output_dict["filtered_scoring_matrix"] = np.array(scoring_matrix).round(3)[ordered_decision_scores_dict["order_ids"],:]
@@ -131,9 +134,10 @@ class ParsedTextOutput(BaseModel):
 class ClaimsEvidenceInput(BaseModel):
     hypothesis: List[str]
     manual_evidences: List[str]
-    hypothesis_nodes: List[Dict[str, Union[str, int]]]
-    structure_hypothesis_graph: List[Dict[str, Union[str, int]]]
 
+
+    hypothesis_nodes: Optional[List[Dict[str, Union[str, int]]]] = []
+    structure_hypothesis_graph: Optional[List[Dict[str, Union[str, int]]]] = []
     min_alignment_limit: Optional[int] = -1
     max_alignment_limit: Optional[int] = -1
 
