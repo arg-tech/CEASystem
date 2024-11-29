@@ -1,0 +1,6 @@
+services:
+  ceas_app:
+    build: .
+    container_name: latif
+    ports:
+      - 8080:800
