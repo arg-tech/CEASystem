@@ -18,6 +18,7 @@ from config import (CLAIM_WORTHINESS_MODEL, CLAIM_WORTHINESS_BATCH_SIZE,
                     CLAIM_WORTHINESS_ID2LABEL, CLAIM_WORTHINESS_CONFIDENCE_THOLD)
 
 import numpy as np
+from hardcoded import demo_utility_hardcoded_articles
 
 claim_extractor = ClaimExtractor(
     model_path_name=CLAIM_EXTRACTOR_MODEL_PATH,
@@ -45,31 +46,44 @@ app = FastAPI()
 @app.post("/get_claims/", response_model=ParsedTextOutput)
 async def get_claims(input_dict: RawTextInput):
 
+    if str(input_dict.text).replace("\n", "").replace(" ", "").replace("\t", "") in demo_utility_hardcoded_articles:
+        claims = demo_utility_hardcoded_articles[str(input_dict.text).replace("\n", "").replace(" ", "").replace("\t", "")]
+        aif_json = DummyAIF.make_aif(texts = claims)
+        return {
+        "code": 200,
+        "output": {
+            "hypothesis": claims,
+            "hypothesis_nodes": aif_json["nodes"],
+            "structure_hypothesis_graph": []
+        }
+    }
+
+    else:
     # Extracting claims.
     # The graph tools are nor build yet, so leave it empty
-    claims = claim_extractor.get_claims(
-        text=input_dict.text,
-        batch_size=CLAIM_EXTRACTOR_BATCH_SIZE
-    )
-    aif_json = DummyAIF.make_aif(texts=claims)
-    claim_nodes_dicts = aif_json["nodes"]
-    structure_claims_graph = []
+        claims = claim_extractor.get_claims(
+            text=input_dict.text,
+            batch_size=CLAIM_EXTRACTOR_BATCH_SIZE
+        )
+        aif_json = DummyAIF.make_aif(texts=claims)
+        claim_nodes_dicts = aif_json["nodes"]
+        structure_claims_graph = []
+    
+        claim_nodes_dicts, structure_claims_graph = claim_worthiness_model.predict(
+            claim_nodes_dicts=claim_nodes_dicts,
+            structure_claims_graph=structure_claims_graph,
+            batch_size=CLAIM_WORTHINESS_BATCH_SIZE
+        )
 
-    claim_nodes_dicts, structure_claims_graph = claim_worthiness_model.predict(
-        claim_nodes_dicts=claim_nodes_dicts,
-        structure_claims_graph=structure_claims_graph,
-        batch_size=CLAIM_WORTHINESS_BATCH_SIZE
-    )
+        claim_texts = [x["text"] for x in claim_nodes_dicts]
 
-    claim_texts = [x["text"] for x in claim_nodes_dicts]
-
-    if not len(claim_texts):
-        return {
+        if not len(claim_texts):
+            return {
             "output": {"Error": "No claims detected."},
             "code": 400
         }
 
-    return {
+        return {
         "code": 200,
         "output": {
             "hypothesis": claim_texts,

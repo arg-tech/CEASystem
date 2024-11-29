@@ -62,6 +62,7 @@ class ClaimExtractor:
             batch_sents,
             return_tensors="pt",
             padding=True,
+            max_length=512,
             truncation=True
         )
 
