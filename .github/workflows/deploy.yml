@@ -1,0 +1,19 @@
+name: Deploy
+on:
+  push:
+    branches: main
+  pull_request:
+      branches: ['*']
+
+jobs:
+  deploy:
+    name: Environments
+    uses: arg-tech/deployment-templates/.github/workflows/default-deploy-template.yml@main
+    secrets: inherit
+    with:
+      # Specify the target production server
+      target_production_server_nickname: argand
+      # Define a URL for your app, without the http:// or www prefixes
+      full_app_url: ceas.latif.arg.tech
+      # The port that is exposed on localhost (must be the same as in docker-compose.yml)
+      app_port: 8080
