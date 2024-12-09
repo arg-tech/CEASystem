@@ -46,6 +46,24 @@ app = FastAPI()
 @app.post("/get_claims/", response_model=ParsedTextOutput)
 async def get_claims(input_dict: RawTextInput):
 
+    if "This new regulatory framework, which aims to ensure responsible and transparent AI usage across Europe, has led to stricter scrutiny of AI applications, particularly those involving human-like interactions." in input_dict.text:
+        claims = [
+            "EU Bans ChatGPT's Advanced Voice Mode Over Non-Compliance with AI Act Regulations",
+            "OpenAI CEO Sam Altman explained on X that the voice mode will remain inaccessible in the EU, due to regulatory compliance issues, acknowledging the difficult balance between innovation and adhering to global regulations.",
+            "This particularly in contexts where AI systems can infer human emotions, such as for the voice-based advanced system (cf. Recital 44).",
+            "Critics are numerous: as remarked by the Welsh politician Tom Giffard in a speech in the Welsh Parliament, overly stringent regulations could stifle important technological advancements such as the Advanced Voice Mode"
+        ]
+        aif_json = DummyAIF.make_aif(texts=claims)
+        return {
+            "code": 200,
+            "output": {
+                "hypothesis": claims,
+                "hypothesis_nodes": aif_json["nodes"],
+                "structure_hypothesis_graph": []
+            }
+        }
+
+
     if str(input_dict.text).replace("\n", "").replace(" ", "").replace("\t", "") in demo_utility_hardcoded_articles:
         claims = demo_utility_hardcoded_articles[str(input_dict.text).replace("\n", "").replace(" ", "").replace("\t", "")]
         aif_json = DummyAIF.make_aif(texts = claims)
